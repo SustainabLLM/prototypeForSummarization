@@ -8,12 +8,13 @@ with open("APIToken") as f:
     token = f.read()
 
 with open("whatToSummarize") as i:
-    summarizee = i.read()
+    summarizee = i.read().replace("\n"," ")
 
-API_URL = "https://api-inference.huggingface.co/models/google/pegasus-xsum"
-secondUrl= "https://api-inference.huggingface.co/models/tuner007/pegasus_summarizer"
-thirdUrl= "https://api-inference.huggingface.co/models/google/bigbird-pegasus-large-bigpatent"
-fourthUrln= "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-12-6"
+API_URL = "https://api-inference.huggingface.co/models/sshleifer/distilbart-cnn-6-6"
+secondUrl= "https://api-inference.huggingface.co/models/tuner007/pegasus_summarizer"  #best this far
+thirdUrl= "https://api-inference.huggingface.co/models/cnicu/t5-small-booksum"
+fourthUrln= "https://api-inference.huggingface.co/models/human-centered-summarization/financial-summarization-pegasus"
+
 headers = {"Authorization": f"Bearer {token}"}
 
 tracker = EmissionsTracker()
@@ -28,10 +29,10 @@ try:
     output2=query({"inputs": f"{summarizee}"},secondUrl)
     output3=query({"inputs": f"{summarizee}"},thirdUrl)
     output4=query({"inputs": f"{summarizee}"},fourthUrln)
-    print(output)
-    print(output2)
-    print(output3)
-    print(output4)
+    print("distilbart 6-6:\n"+f"{output}\n")
+    print("pegasus summarizer: \n"+f"{output2}\n")
+    print("t5 small booksum\n"+f"{output3}\n")
+    print("pegasus financial summarization \n"+f"{output4}")
     _ = 1 + 1
 finally:
     tracker.stop()
